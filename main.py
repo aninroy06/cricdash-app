@@ -177,6 +177,6 @@ elif choice == "Admin":
             st.success("Player saved!")
 
 st.subheader("Players")
-    with get_conn() as conn:
-        df = pd.read_sql("SELECT * FROM players ORDER BY updated_at DESC LIMIT 50", conn)
+with get_conn() as conn:
+    df = pd.read_sql("SELECT * FROM players ORDER BY updated_at DESC LIMIT 50", conn)
     st.dataframe(df, use_container_width=True)
