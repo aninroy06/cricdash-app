@@ -113,8 +113,9 @@ init_db()
 
 menu = ["Live", "Players", "SQL Lab", "Admin"]
 choice = st.sidebar.radio("Navigate", menu)
-    if choice == "Live":
-        st.header("Matches")
+    
+        if choice == "Live":
+            st.header("Matches")
 
     match_mode = st.radio("Select match type", ["Live", "Recent"], horizontal=True)
 
