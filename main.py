@@ -57,3 +57,21 @@ st.set_page_config(page_title="CricDash", page_icon="🏏", layout="wide")
 st.title("🏏 CricDash — Cricket Analytics Dashboard")
 init_db()
 st.write("App initialized. Navigate sidebar to explore.")
+menu = ["Live", "Players", "SQL Lab", "Admin"]
+choice = st.sidebar.radio("Navigate", menu)
+
+if choice == "Live":
+    st.header("Live Matches")
+    st.info("No live data yet — try integrating API refresh here.")
+
+elif choice == "Players":
+    st.header("Player Explorer")
+    st.info("Player database will be shown here.")
+
+elif choice == "SQL Lab":
+    st.header("SQL Lab (Read-only)")
+    st.info("Custom SQL queries coming soon.")
+
+elif choice == "Admin":
+    st.header("Admin — CRUD")
+    st.info("Add/update players here.")
