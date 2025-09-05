@@ -84,7 +84,7 @@ def api_get(path, params=None):
 
 def refresh_matches(mode="live"):
     """Fetch matches (live or recent) from RapidAPI Cricbuzz"""
-    if mode == "live":
+    if mode = "live":
         data = api_get("matches/v1/live")
     else:
         data = api_get("matches/v1/recent")
