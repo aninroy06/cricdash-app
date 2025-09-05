@@ -8,9 +8,15 @@ import pandas as pd
 import sqlite3
 from contextlib import contextmanager
 
+API_KEY = st.secrets["RAPIDAPI_KEY"]
+API_HOST = st.secrets["RAPIDAPI_HOST"]
+
+
 DB_PATH = "cricdash.db"
-API_BASE_URL = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
-API_KEY = st.secrets.get("3a40b41654msh37cc2a3ded239eap19e78fjsn1ddc38a24341", None) # load from env in production
+#API_BASE_URL = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
+#API_KEY = st.secrets.get("3a40b41654msh37cc2a3ded239eap19e78fjsn1ddc38a24341", None) # load from env in production
+
+
 
 @contextmanager
 def get_conn():
