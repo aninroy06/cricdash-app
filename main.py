@@ -83,6 +83,8 @@ def api_get(path, params=None):
     return r.json()
 
 def refresh_matches(mode="live"):
+    data = api_get(f"matches/v1/{mode}")
+    st.write("DEBUG: API Response", data)
     """Fetch matches (live or recent) from RapidAPI Cricbuzz"""
     if mode == "live":
         data = api_get("matches/v1/live")
