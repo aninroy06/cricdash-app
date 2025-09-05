@@ -82,8 +82,13 @@ def api_get(path, params=None):
     r.raise_for_status()
     return r.json()
 
-def refresh_live():
-    data = api_get("matches/v1/live")
+def refresh_matches(mode="live"):
+    """Fetch matches (live or recent) from RapidAPI Cricbuzz"""
+    if mode == "live":
+        data = api_get("matches/v1/live")
+    else:
+        data = api_get("matches/v1/recent")
+
     matches = data.get("typeMatches", [])
     with get_conn() as conn:
         for match_type in matches:
@@ -110,8 +115,20 @@ menu = ["Live", "Players", "SQL Lab", "Admin"]
 choice = st.sidebar.radio("Navigate", menu)
 
 if choice == "Live":
-    st.header("Live Matches")
-    st.button("Refresh Data", on_click=refresh_live)
+    st.header("Matches")
+
+    match_mode = st.radio("Select match type", ["Live", "Recent"], horizontal=True)
+
+    if st.button("Refresh Data"):
+        refresh_matches("live" if match_mode == "Live" else "recent")
+
+    with get_conn() as conn:
+        df = pd.read_sql("SELECT * FROM matches ORDER BY start_time DESC", conn)
+
+    if df.empty:
+        st.info(f"No {match_mode.lower()} matches found.")
+    else:
+        st.dataframe(df, use_container_width=True)
 
     with get_conn() as conn:
         df = pd.read_sql("SELECT * FROM matches ORDER BY start_time DESC", conn)
