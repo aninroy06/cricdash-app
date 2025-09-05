@@ -130,6 +130,7 @@ if choice == "Live":
     else:
         st.dataframe(df, use_container_width=True)
 
+
     with get_conn() as conn:
         df = pd.read_sql("SELECT * FROM matches ORDER BY start_time DESC", conn)
     if df.empty:
