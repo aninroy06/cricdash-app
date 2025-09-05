@@ -84,6 +84,26 @@ def api_get(path, params=None):
 
 def refresh_matches(mode="live"):
     data = api_get(f"matches/v1/{mode}")
+    matches = data.get("typeMatches", [])
+    with get_conn() as conn:
+        for match_type in matches:
+            for m in match_type.get("seriesMatches", []):
+                wrapper = m.get("seriesAdWrapper", {})
+                for match in wrapper.get("matches", []):
+                    info = match.get("matchInfo", {})
+                    if not info:
+                        continue
+                    conn.execute("""
+                        INSERT OR REPLACE INTO matches (match_id, status, venue, start_time, result_text)
+                        VALUES (?,?,?,?,?)
+                    """, (
+                        str(info.get("matchId")),
+                        info.get("status"),
+                        info.get("venueInfo", {}).get("ground"),
+                        info.get("startDate"),
+                        info.get("statusText"),
+                    ))
+
     st.write("DEBUG: API Response", data)
     matches = data.get("typeMatches", [])
     """Fetch matches (live or recent) from RapidAPI Cricbuzz"""
